@@ -1,22 +1,21 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const createError = require('http-errors');
+const express = require('express');
+const logger = require('morgan');
+const apicache = require('apicache');
+const indexRouter = require('./routes/todo.routes');
 
-var indexRouter = require('./routes/index');
-var todoRouter = require('./routes/todo');
+const cache = apicache.middleware;
 
-var app = express();
 process.env.NODE_ENV = 'development';
+
+const app = express();
+const cors = require('cors')
+app.use(cache('5 minutes'));
+app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 
-
-app.use('/', indexRouter);
-app.use('/todos', todoRouter);
+app.use('/api/v1/todo', indexRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
