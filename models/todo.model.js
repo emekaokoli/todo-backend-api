@@ -1,8 +1,7 @@
 const { Database } = require('../db/database');
 const {
   todo_plain_string,
-  todo_sql_insert,
-  delete_todo_query,
+  insert_todos,
   queryAll,
   _id,
   queryOneTodo,
@@ -13,9 +12,10 @@ exports.create = async (requestBody) => {
   const keys = todo_plain_string.split(',').map((k) => k.trim());
   const values = keys.map((key) => requestBody[key]);
   try {
-    const { rows } = await Database(todo_sql_insert, values);
+    const { rows } = await Database(insert_todos, values);
     return { rows };
   } catch (error) {
+    console.trace(error);
     throw new Error(`failed, ${error.message}`);
   }
 };

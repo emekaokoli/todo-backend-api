@@ -5,7 +5,6 @@ const apicache = require('apicache');
 const indexRouter = require('./routes/todo.routes');
 
 const cache = apicache.middleware;
-
 process.env.NODE_ENV = 'development';
 
 const app = express();
@@ -30,7 +29,7 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.send('error');
 });
 
 module.exports = app;

@@ -29,6 +29,7 @@ module.exports.createTodo = async (req, res, next) => {
     }
     return res.status(400).send('failed');
   } catch (error) {
+    console.trace(error);
     return res.tatus(500).send(`Internal Server Error: ${error.message}`);
   }
   next();
