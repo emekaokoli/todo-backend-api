@@ -21,11 +21,11 @@ exports.validateReqBody = () => {
       .trim()
       .toLowerCase()
       .withMessage('cannot be empty'),
-    body('subtasks')
-      .notEmpty()
-      .trim()
-      .toLowerCase()
-      .withMessage('cannot be empty')
+    // body('subtasks')
+    //   .notEmpty()
+    //   .trim()
+    //   .toLowerCase()
+    //   .withMessage('cannot be empty')
   ];
 };
 

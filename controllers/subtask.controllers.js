@@ -5,6 +5,7 @@ const {
   findAll,
   findOne,
   deleteOne,
+  updateOne,
 } = require('../models/todo.model.js');
 
 /**
@@ -16,11 +17,12 @@ const {
  */
 
 module.exports.createTodo = async (req, res, next) => {
-  const { title, status} = req.body;
+  const { title, status, subtasks } = req.body;
   try {
     const { rows } = await create({
       title,
       status,
+      subtasks,
     });
 
     if (rows) {
@@ -29,7 +31,7 @@ module.exports.createTodo = async (req, res, next) => {
     return res.status(400).send('failed');
   } catch (error) {
     console.trace(error);
-    return res.status(500).send(`Internal Server Error: ${error.message}`);
+    return res.tatus(500).send(`Internal Server Error: ${error.message}`);
   }
   next();
 };
@@ -99,4 +101,30 @@ exports.deleteOne = async (req, res, next) => {
   } catch (error) {
     return res.status(500).send(`Internal Server Error ${error.name}`);
   }
+};
+
+exports.UPDATE = async (req, res, next) => {
+  const id  = parseInt(req.params.id);
+
+  const {
+  title,
+  status
+  } = req.body;
+
+  try {
+    const { rows } = await updateOne({
+      title,
+      status,
+      id,
+    });
+
+    if (rows) {
+      return res.status(200).send(`task modified with the Id ${id}`);
+    }
+    return res.status(400).send(`failed, Id ${id} does not exist`);
+  } catch (error) {
+    console.trace(error);
+    return res.status(500).send(`Internal Server Error ${error.message}`);
+  }
+  next();
 };

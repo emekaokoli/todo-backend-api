@@ -53,13 +53,15 @@ exports.deleteOne = async (deleteRequestId) => {
   }
 };
 
+
 exports.updateOne = async (updateId) => {
   const keys = todo_plain_string.split(',').map((k) => k.trim());
   const values = keys.map((key) => updateId[key]);
+  console.log(values);
 
   try {
     const { rows } = await Database(updateTodo, values);
-    return { rows };
+    return {rows};
   } catch (error) {
     throw new Error(`update failed, ${error.message}`);
   }

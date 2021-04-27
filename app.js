@@ -2,7 +2,8 @@ const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 const apicache = require('apicache');
-const indexRouter = require('./routes/todo.routes');
+const todoRouter = require('./routes/todo.routes');
+const subtaskRouter = require('./routes/subtask.routes')
 
 const cache = apicache.middleware;
 process.env.NODE_ENV = 'development';
@@ -14,7 +15,8 @@ app.use(cors());
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api/v1/todo', indexRouter);
+app.use('/api/v1/todo', todoRouter);
+app.use('/api/v1/subtasks', subtaskRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
