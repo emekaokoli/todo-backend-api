@@ -15,17 +15,21 @@ exports.validateReqBody = () => {
       .notEmpty()
       .trim()
       .toLowerCase()
+      .withMessage('cannot be empty')
+  ];
+};
+exports.validateSuntakReqBody = () => {
+  return [
+    body('title')
+      .notEmpty()
+      .trim()
+      .toLowerCase()
       .withMessage('cannot be empty'),
     body('status')
       .notEmpty()
       .trim()
       .toLowerCase()
       .withMessage('cannot be empty'),
-    // body('subtasks')
-    //   .notEmpty()
-    //   .trim()
-    //   .toLowerCase()
-    //   .withMessage('cannot be empty')
   ];
 };
 

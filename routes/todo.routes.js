@@ -1,5 +1,12 @@
 const express = require('express');
-const {getAll, createTodo, FindOne, deleteOne} = require('../controllers/todo.controllers');
+
+const {
+  getAll,
+  createTodo,
+  FindOne,
+  deleteOne,
+  UPDATE,
+} = require('../controllers/todo.controllers');
 const { validateReqBody, validate } = require('../helpers/formatRequests');
 
 const router = express.Router();
@@ -28,11 +35,7 @@ router
     res.end('post operation not supported');
     next();
   })
-  .put((req, res, next) => {
-    res.statusCode = 403;
-    res.end('put operation not supported');
-    next();
-  })
+  .put(validateReqBody(), validate, UPDATE)
   .delete(deleteOne);
 
 module.exports = router;

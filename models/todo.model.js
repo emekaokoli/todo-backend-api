@@ -12,6 +12,7 @@ const {
 exports.create = async (requestBody) => {
   const keys = todo_plain_string.split(',').map((k) => k.trim());
   const values = keys.map((key) => requestBody[key]);
+ 
   try {
     const { rows } = await Database(insert_todos, values);
     return { rows };
@@ -55,12 +56,15 @@ exports.deleteOne = async (deleteRequestId) => {
 
 exports.updateOne = async (updateId) => {
   const keys = todo_plain_string.split(',').map((k) => k.trim());
-  const values = keys.map((key) => updateId[key]);
+  const value = keys.map((key) => updateId[key]);
+  const id = updateId.id;
 
+  const values = [...value, id];
   try {
     const { rows } = await Database(updateTodo, values);
     return { rows };
   } catch (error) {
+    console.trace(error);
     throw new Error(`update failed, ${error.message}`);
   }
 };

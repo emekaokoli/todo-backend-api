@@ -5,6 +5,7 @@ const {
   findAll,
   findOne,
   deleteOne,
+  updateOne,
 } = require('../models/todo.model.js');
 
 /**
@@ -16,15 +17,16 @@ const {
  */
 
 module.exports.createTodo = async (req, res, next) => {
-  const { title, status} = req.body;
+  const { title, status } = req.body;
   try {
     const { rows } = await create({
       title,
       status,
     });
-
-    if (rows) {
-      return res.status(201).send('sucess');
+    const results = rows[0];
+    console.log(results);
+    if (results) {
+      return res.status(201).send({ message: 'success' });
     }
     return res.status(400).send('failed');
   } catch (error) {
@@ -48,7 +50,10 @@ exports.getAll = async (req, res, next) => {
 
     const results = rows;
     if (results) {
-      return res.status(200).send(results);
+      return res.status(200).json({
+
+        data: results
+      });
     }
     return res.status(400).send('Failed to get');
   } catch (error) {
@@ -99,4 +104,27 @@ exports.deleteOne = async (req, res, next) => {
   } catch (error) {
     return res.status(500).send(`Internal Server Error ${error.name}`);
   }
+};
+
+exports.UPDATE = async (req, res, next) => {
+  const id = parseInt(req.params.id);
+
+  const { title, status } = req.body;
+
+  try {
+    const { rows } = await updateOne({
+      title,
+      status,
+      id,
+    });
+
+    if (rows) {
+      return res.status(200).send(`task modified with the Id ${id}`);
+    }
+    return res.status(400).send(`failed, Id ${id} does not exist`);
+  } catch (error) {
+    console.trace(error);
+    return res.status(500).send(`Internal Server Error ${error.message}`);
+  }
+  next();
 };

@@ -16,7 +16,7 @@ app.use(logger('dev'));
 app.use(express.json());
 
 app.use('/api/v1/todo', todoRouter);
-app.use('/api/v1/subtasks', subtaskRouter);
+app.use('/api/v1/subtask', subtaskRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
