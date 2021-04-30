@@ -4,14 +4,15 @@ const logger = require('morgan');
 const apicache = require('apicache');
 const todoRouter = require('./routes/todo.routes');
 const subtaskRouter = require('./routes/subtask.routes')
+const cors = require('cors');
+
 
 const cache = apicache.middleware;
 process.env.NODE_ENV = 'development';
 
 const app = express();
-const cors = require('cors')
-app.use(cache('5 minutes'));
 app.use(cors());
+app.use(cache('5 minutes'));
 app.use(logger('dev'));
 app.use(express.json());
 

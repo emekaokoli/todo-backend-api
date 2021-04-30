@@ -19,18 +19,15 @@ const {
 module.exports.createTodo = async (req, res, next) => {
   const { title, status } = req.body;
   try {
-    const { rows } = await create({
-      title,
-      status,
-    });
+    const { rows } = await create({ title, status });
     const results = rows[0];
-    console.log(results);
+   
     if (results) {
-      return res.status(201).send({ message: 'success' });
+      return res.status(201).json({ message: 'success' });
     }
     return res.status(400).send('failed');
   } catch (error) {
-    console.trace(error);
+    console.trace(error.stack);
     return res.status(500).send(`Internal Server Error: ${error.message}`);
   }
   next();
@@ -50,10 +47,7 @@ exports.getAll = async (req, res, next) => {
 
     const results = rows;
     if (results) {
-      return res.status(200).json({
-
-        data: results
-      });
+      return res.status(200).json({ data: results});
     }
     return res.status(400).send('Failed to get');
   } catch (error) {
