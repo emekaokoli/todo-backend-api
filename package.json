@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon node ./bin/www node --trace-warnings"
+    "start": "nodemon node ./bin/www"
   },
   "dependencies": {
     "apicache": "^1.6.2",
