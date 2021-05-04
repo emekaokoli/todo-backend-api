@@ -11,19 +11,20 @@ process.env.NODE_ENV = 'development';
 const app = express();
 const allowedOrigins = (process.env.ALLOW_ORIGIN || 'http://127.0.0.1:4000,http://localhost:4000').split(",");
 
-app.use(cors({
-  origin: function(origin, callback) {
-        // allow requests with no origin 
-        // (like mobile apps or curl requests)
-        if(!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1){
-        const msg = 'The CORS policy for this site does not ' +
-                    'allow access from the specified Origin.';
-        return callback(new Error(msg), false);
-        }
-        return callback(null, true);
-  }
-}));
+// app.use(cors({
+//   origin: function(origin, callback) {
+//         // allow requests with no origin 
+//         // (like mobile apps or curl requests)
+//         if(!origin) return callback(null, true);
+//         if(allowedOrigins.indexOf(origin) === -1){
+//         const msg = 'The CORS policy for this site does not ' +
+//                     'allow access from the specified Origin.';
+//         return callback(new Error(msg), false);
+//         }
+//         return callback(null, true);
+//   }
+// }));
+app.use(cors(allowedOrigins));
 app.use(cache('5 minutes'));
 app.use(logger('dev'));
 app.use(express.json());
