@@ -1,5 +1,5 @@
 const { withClient } = require('../db/utils');
-const { tasks } = require('../db/queries');
+const { tasks } = require('../db/schema/queries');
 
 module.exports = {
     create: (title) => withClient(async (client) => {

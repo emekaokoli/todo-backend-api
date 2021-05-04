@@ -1,5 +1,5 @@
 const { withClient } = require('../db/utils');
-const { subtasks } = require('../db/queries');
+const { subtasks } = require('../db/schema/queries');
 
 module.exports = {
   create: ({ title, todo_id }) =>
