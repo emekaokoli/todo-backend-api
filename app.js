@@ -2,8 +2,6 @@ const createError = require('http-errors');
 const express = require('express');
 const logger = require('morgan');
 const apicache = require('apicache');
-const todoRouter = require('./routes/todo.routes');
-const subtaskRouter = require('./routes/subtask.routes')
 const cors = require('cors');
 
 
@@ -11,13 +9,26 @@ const cache = apicache.middleware;
 process.env.NODE_ENV = 'development';
 
 const app = express();
-app.use(cors());
+const allowedOrigins = (process.env.ALLOW_ORIGIN || 'http://127.0.0.1:3000,http://localhost:3000').split(",");
+
+app.use(cors({
+  origin: function(origin, callback) {
+        // allow requests with no origin 
+        // (like mobile apps or curl requests)
+        if(!origin) return callback(null, true);
+        if(allowedOrigins.indexOf(origin) === -1){
+        const msg = 'The CORS policy for this site does not ' +
+                    'allow access from the specified Origin.';
+        return callback(new Error(msg), false);
+        }
+        return callback(null, true);
+  }
+}));
 app.use(cache('5 minutes'));
 app.use(logger('dev'));
 app.use(express.json());
 
-app.use('/api/v1/todo', todoRouter);
-app.use('/api/v1/subtask', subtaskRouter);
+app.use('/api/v1/tasks', require('./routes/tasks'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
