@@ -9,7 +9,7 @@ const cache = apicache.middleware;
 process.env.NODE_ENV = 'development';
 
 const app = express();
-const allowedOrigins = (process.env.ALLOW_ORIGIN || 'http://127.0.0.1:3000,http://localhost:3000').split(",");
+const allowedOrigins = (process.env.ALLOW_ORIGIN || 'http://127.0.0.1:4000,http://localhost:4000').split(",");
 
 app.use(cors({
   origin: function(origin, callback) {
